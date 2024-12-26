@@ -8,26 +8,46 @@
   <body>
     <h1>HI</h1>
 
-    <button class="login">Log In</button>
+    <button class="login">login</button>
+
+    <button class="dashboard">dashboard</button>
     <script
       src="https://code.jquery.com/jquery-2.2.4.js"
       integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
       crossorigin="anonymous"
     ></script>
     <script>
-      login = document.querySelector('.login');
+      let jwtToken = null;
 
-      login.addEventListener('click', loginHandler);
+      logins = document.querySelector('.login');
 
-      function loginHandler() {
-        var URL = 'http://localhost:3000/dashboard';
+      logins.addEventListener('click', login);
+
+      dashboard = document.querySelector('.dashboard');
+
+      dashboard.addEventListener('click', dashboardHandler);
+
+      function login() {
+        let URL = 'http://localhost:3000/login';
+
+        // ajax 와 비슷한 문법 = fetch 자바스크립트로 이루어진 서버에 요청하는 함수
+        $.ajax({
+          url: URL,
+          method: 'GET',
+        }).then(function (response) {
+          console.log(response);
+          jwtToken = response.token;
+        });
+      }
+
+      function dashboardHandler() {
+        let URL = 'http://localhost:3000/dashboard';
 
         $.ajax({
           url: URL,
           method: 'GET',
           headers: {
-            authorization:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJuYW1lIjoiaG9uZ0dpbERvbmciLCJpYXQiOjE3MzUxODM0ODQsImV4cCI6MTczNTE4NzA4NH0.lp5dWXRQbHrMN251qtlgQZEEnd1C4kSaeuZ5RAqxJFE',
+            authorization: jwtToken,
           },
         }).then(function (response) {
           console.log(response);

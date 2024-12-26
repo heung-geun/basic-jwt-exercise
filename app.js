@@ -16,7 +16,7 @@ app.use(express.static(__dirname + '/public'));
 
 // 1. 로그인: JWT 생성
 app.get('/login', (req, res) => {
-  const user = { id: 123, name: 'hongGilDong' }; // 사용자 정보
+  const user = { id: 123, name: '강나연' }; // 사용자 정보
   const token = jwt.sign(
     user,
     SECRET_KEY,
